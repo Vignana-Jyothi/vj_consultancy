@@ -1,0 +1,15 @@
+POST http://localhost:8000/api/projects
+Content-Type: application/json
+
+{
+    "title": "Portfolio Website",
+    "description": "Build a personal portfolio website",
+    "skills": "React, Node.js",
+    "category": "Web Development",
+    "budget": 5000,
+    "duration": "2 weeks",
+    "deadline": "2026-07-15",
+    "source_website": "Upwork"
+}
+###
+GET http://localhost:8000/api/projects
