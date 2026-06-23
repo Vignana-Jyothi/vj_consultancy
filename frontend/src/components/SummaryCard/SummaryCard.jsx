@@ -28,19 +28,22 @@ const defaultIcons = {
   )
 };
 
-export default function SummaryCard({ title, count, icon }) {
+export default function SummaryCard({ title, count, icon, description }) {
   // Render custom icon if it's an element, otherwise lookup from defaultIcons map
   const renderIcon = typeof icon === 'string' ? defaultIcons[icon] : icon;
 
   return (
     <div className="summary-card">
-      <div className="summary-card-content">
-        <span className="summary-card-title">{title}</span>
-        <span className="summary-card-count">{count}</span>
+      <div className="summary-card-main">
+        <div className="summary-card-content">
+          <span className="summary-card-title">{title}</span>
+          <span className="summary-card-count">{count}</span>
+        </div>
+        <div className="summary-card-icon-container">
+          {renderIcon}
+        </div>
       </div>
-      <div className="summary-card-icon-container">
-        {renderIcon}
-      </div>
+      {description && <p className="summary-card-description">{description}</p>}
     </div>
   );
 }

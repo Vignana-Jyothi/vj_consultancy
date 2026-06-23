@@ -1,77 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import ProjectsTable from '../../components/ProjectsTable/ProjectsTable';
 import './MyProjects.css';
-
-// Realistic mock data as per requirements
-const initialProjects = [
-  {
-    id: 'proj-101',
-    title: 'E-Commerce Website Development',
-    budget: 150000,
-    status: 'Published',
-    addedOn: '2026-06-01',
-    deadline: '2026-07-15'
-  },
-  {
-    id: 'proj-102',
-    title: 'Hospital Management System',
-    budget: 320000,
-    status: 'Active',
-    addedOn: '2026-05-15',
-    deadline: '2026-08-30'
-  },
-  {
-    id: 'proj-103',
-    title: 'Restaurant Management System',
-    budget: 85000,
-    status: 'Completed',
-    addedOn: '2026-04-10',
-    deadline: '2026-06-10'
-  },
-  {
-    id: 'proj-104',
-    title: 'Student Performance Analytics',
-    budget: 120000,
-    status: 'Active',
-    addedOn: '2026-05-20',
-    deadline: '2026-09-15'
-  },
-  {
-    id: 'proj-105',
-    title: 'Real Estate Listing Platform',
-    budget: 210000,
-    status: 'Closed',
-    addedOn: '2026-03-01',
-    deadline: '2026-05-01'
-  },
-  {
-    id: 'proj-106',
-    title: 'Inventory Management System',
-    budget: 180000,
-    status: 'Published',
-    addedOn: '2026-06-12',
-    deadline: '2026-08-01'
-  },
-  {
-    id: 'proj-107',
-    title: 'Online Examination System',
-    budget: 160000,
-    status: 'Active',
-    addedOn: '2026-05-05',
-    deadline: '2026-07-31'
-  }
-];
+import ViewProjectModal from '../../components/ViewProjectModal/ViewProjectModal';
+import EditProjectModal from '../../components/EditProjectModal/EditProjectModal';
 
 export default function MyProjects() {
-  const [projects] = useState(initialProjects);
+  const [selectedProject, setSelectedProject] = useState(null);
+ const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [projects, setProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [editProject, setEditProject] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const navigate = useNavigate();
+  const handleUpdateProject = async (updatedProject) => {
 
+  try {
+
+    await fetch(
+      `http://localhost:8000/api/projects/${updatedProject.project_id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedProject)
+      }
+    );
+
+    setIsEditModalOpen(false);
+
+    window.location.reload();
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+};
   // Sidebar toggle handlers (for mobile views)
   const toggleSidebar = () => {
     setIsSidebarOpen((prev) => !prev);
@@ -93,17 +64,84 @@ export default function MyProjects() {
   });
 
   // Action handlers
-  const handleViewDetails = (id) => {
-    console.log(`View Details Clicked for Project ID: ${id}`);
-  };
+  const handleViewDetails = async (id) => {
+  try {
 
-  const handleEditProject = (id) => {
-    console.log(`Edit Project Clicked for Project ID: ${id}`);
-  };
+    const response = await fetch(
+      `http://localhost:8000/api/projects/${id}`
+    );
+
+    const project = await response.json();
+
+    setSelectedProject(project);
+    setIsViewModalOpen(true);
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+};
+
+  const handleEditProject = async (id) => {
+
+  try {
+
+    const response = await fetch(
+      `http://localhost:8000/api/projects/${id}`
+    );
+
+    const project = await response.json();
+
+    setEditProject(project);
+
+    setIsEditModalOpen(true);
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+};
 
   const handleAddNewProjectClick = () => {
     navigate('/add-project');
   };
+  useEffect(() => {
+
+  async function fetchProjects() {
+
+    try {
+
+      const response = await fetch(
+        "http://localhost:8000/api/projects"
+      );
+
+      const data = await response.json();
+
+      const formattedProjects = data.map((project) => ({
+        id: project.project_id,
+        title: project.title,
+        budget: Number(project.budget),
+        status: project.status,
+        addedOn: project.created_at,
+        deadline: project.deadline
+      }));
+
+      setProjects(formattedProjects);
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+  fetchProjects();
+
+}, []);
 
   return (
     <div className="dashboard-layout">
@@ -216,6 +254,17 @@ export default function MyProjects() {
           </div>
         </section>
       </div>
+      <ViewProjectModal
+  project={selectedProject}
+  isOpen={isViewModalOpen}
+  onClose={() => setIsViewModalOpen(false)}
+/>
+<EditProjectModal
+  project={editProject}
+  isOpen={isEditModalOpen}
+  onClose={() => setIsEditModalOpen(false)}
+  onUpdate={handleUpdateProject}
+/>
     </div>
   );
 }

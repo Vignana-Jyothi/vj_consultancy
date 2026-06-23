@@ -12,4 +12,21 @@ Content-Type: application/json
     "source_website": "Upwork"
 }
 ###
-GET http://localhost:8000/api/projects
+GET http://localhost:8000/api/projects/999
+###
+GET http://localhost:8000/api/dashboard/activities
+###
+PUT http://localhost:8000/api/projects/1
+Content-Type: application/json
+
+{
+  "title": "E-Commerce Website Development Updated",
+  "description": "Develop a full-stack e-commerce platform with product catalog, shopping cart, user authentication, order management, and payment integration.",
+  "skills": "React, Node.js, Express.js, PostgreSQL",
+  "category": "Web Development",
+  "budget": 35000,
+  "duration": "6 weeks",
+  "deadline": "2026-08-15",
+  "source_website": "upwork"
+}
+

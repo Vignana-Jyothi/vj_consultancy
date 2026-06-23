@@ -1,13 +1,62 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import SummaryCard from '../../components/SummaryCard/SummaryCard';
 import ActivityList from '../../components/ActivityList/ActivityList';
 import QuickActionsList from '../../components/QuickActionsList/QuickActionsList';
-import { dashboardStats, recentActivities } from '../../data/dashboardData';
 import './Dashboard.css';
 
 export default function Dashboard() {
+
+  const [stats, setStats] = useState({
+    published: 0,
+    active: 0,
+    completed: 0,
+    delivered: 0
+  });
+
+  const [activities, setActivities] = useState([]);
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  useEffect(() => {
+
+  async function fetchDashboardData() {
+
+    try {
+
+      const statsResponse = await fetch(
+        "http://localhost:8000/api/dashboard/stats"
+      );
+
+      const statsData = await statsResponse.json();
+
+      setStats(statsData);
+
+      const activitiesResponse = await fetch(
+        "http://localhost:8000/api/dashboard/activities"
+      );
+
+      const activitiesData = await activitiesResponse.json();
+
+      const formattedActivities = activitiesData.map((activity) => ({
+        id: activity.activity_id,
+        title: activity.message,
+        time: new Date(activity.created_at).toLocaleString()
+      }));
+
+      setActivities(formattedActivities);
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+
+  }
+
+  fetchDashboardData();
+
+}, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -19,65 +68,96 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-layout">
-      {/* Sidebar Component */}
       <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
-      {/* Main Content Area */}
       <div className="dashboard-main">
-        {/* Top Navbar for Mobile/Tablet Viewports */}
+
         <header className="dashboard-navbar">
-          <button className="navbar-toggle-btn" onClick={toggleSidebar} aria-label="Open menu">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <button
+            className="navbar-toggle-btn"
+            onClick={toggleSidebar}
+            aria-label="Open menu"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <line x1="3" y1="12" x2="21" y2="12" />
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="3" y1="18" x2="21" y2="18" />
             </svg>
           </button>
+
           <span className="navbar-brand">VJ Consultancy</span>
         </header>
 
-        {/* Dashboard Header */}
         <div className="dashboard-header-section">
-          <h1 className="dashboard-title">Project Sourcing Dashboard</h1>
+          <h1 className="dashboard-title">
+            Project Sourcing Dashboard
+          </h1>
+
           <p className="dashboard-subtitle">
-            Overview of all projects you have added, grouped by their current status.
+            Overview of all projects you have added,
+            grouped by their current status.
           </p>
         </div>
 
-        {/* Summary Stats Grid */}
-        <section className="summary-grid" aria-label="Project Statistics">
+        <section
+          className="summary-grid"
+          aria-label="Project Statistics"
+        >
           <SummaryCard
             title="Published Projects"
-            count={dashboardStats.published}
+            count={stats.published}
             icon="published"
+            description="Visible to students and accepting applications."
           />
+
           <SummaryCard
             title="Active Projects"
-            count={dashboardStats.active}
+            count={stats.active}
             icon="active"
+            description="Currently assigned and under development."
           />
+
           <SummaryCard
             title="Completed Projects"
-            count={dashboardStats.completed}
+            count={stats.completed}
             icon="completed"
+            description="Submitted by student and awaiting delivery."
           />
+
           <SummaryCard
             title="Delivered Projects"
-            count={dashboardStats.delivered}
+            count={stats.delivered}
             icon="delivered"
+            description="Successfully delivered to the client."
           />
         </section>
 
-        {/* Bottom Details Grid (Activities & Quick Actions) */}
         <div className="details-grid">
-          <section className="details-activities" aria-label="Recent Activities Log">
-            <ActivityList activities={recentActivities} />
+
+          <section
+            className="details-activities"
+            aria-label="Recent Activities Log"
+          >
+            <ActivityList activities={activities} />
           </section>
-          
-          <section className="details-actions" aria-label="Quick Sourcing Actions">
+
+          <section
+            className="details-actions"
+            aria-label="Quick Sourcing Actions"
+          >
             <QuickActionsList />
           </section>
+
         </div>
+
       </div>
     </div>
   );

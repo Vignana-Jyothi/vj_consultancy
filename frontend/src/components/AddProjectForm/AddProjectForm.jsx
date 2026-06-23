@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './AddProjectForm.css';
 const CATEGORY_OPTIONS = [
   'Web Development',
@@ -9,6 +10,8 @@ const CATEGORY_OPTIONS = [
 ];
 
 function AddProjectForm() {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [skills, setSkills] = useState('');
@@ -20,8 +23,19 @@ function AddProjectForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  
+  const resetForm = () => {
+    setTitle('');
+    setDescription('');
+    setSkills('');
+    setCategory('');
+    setBudget('');
+    setDuration('');
+    setDeadline('');
+    setSourceWebsite('');
+  };
+
   async function handleSubmit(e) {
 
   e.preventDefault();
@@ -98,17 +112,10 @@ function AddProjectForm() {
     console.log(data);
 
     // Clear form after successful insertion
-
-    setTitle("");
-    setDescription("");
-    setSkills("");
-    setCategory("");
-    setBudget("");
-    setDuration("");
-    setDeadline("");
-    setSourceWebsite("");
+    resetForm();
 
     setIsSuccess(true);
+    setShowModal(true);
 
   } catch (error) {
 
@@ -122,9 +129,24 @@ function AddProjectForm() {
   }
 }
 
+  const handleAddAnother = () => {
+    setShowModal(false);
+    setIsSuccess(false);
+    resetForm();
+  };
+
+  const handleViewMyProjects = () => {
+    setShowModal(false);
+    navigate('/my-projects');
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="add-project-form__card">
-      {isSuccess && (
+      {isSuccess && !showModal && (
         <div className="add-project-form__success" role="status">
           <span className="add-project-form__success-dot" aria-hidden="true" />
           <span className="add-project-form__success-text">
@@ -281,8 +303,66 @@ function AddProjectForm() {
           </span>
         </div>
       </form>
+
+      {/* ── Publish Success Modal ── */}
+      {showModal && (
+        <div className="publish-modal__overlay" onClick={handleCloseModal}>
+          <div
+            className="publish-modal__content"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="publish-modal-title"
+          >
+            {/* Close button */}
+            <button
+              className="publish-modal__close"
+              onClick={handleCloseModal}
+              aria-label="Close modal"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+
+            {/* Success icon */}
+            <div className="publish-modal__icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="publish-modal__icon">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+            </div>
+
+            {/* Modal text */}
+            <h2 id="publish-modal-title" className="publish-modal__title">
+              Project Published Successfully
+            </h2>
+            <p className="publish-modal__message">
+              The project is now visible to students and available for applications.
+            </p>
+
+            {/* Modal actions */}
+            <div className="publish-modal__actions">
+              <button
+                className="publish-modal__btn publish-modal__btn--primary"
+                onClick={handleAddAnother}
+              >
+                Add Another Project
+              </button>
+              <button
+                className="publish-modal__btn publish-modal__btn--secondary"
+                onClick={handleViewMyProjects}
+              >
+                View My Projects
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default AddProjectForm;
+
