@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 
 export default function Sidebar({ isOpen, onClose }) {
-  const menuItems = [
+  const sourcerItems = [
     {
       name: 'Project Sourcing Dashboard',
       path: '/dashboard',
@@ -28,11 +28,24 @@ export default function Sidebar({ isOpen, onClose }) {
       )
     },
     {
-      name: 'My Projects',
+      name: 'All Projects',
       path: '/my-projects',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="menu-icon">
           <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+        </svg>
+      )
+    }
+  ];
+
+  const studentItems = [
+  {
+    name: 'Browse Projects',
+    path: '/browse-projects',
+      icon: (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="menu-icon">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
       )
     }
@@ -55,8 +68,28 @@ export default function Sidebar({ isOpen, onClose }) {
         </div>
         
         <nav className="sidebar-nav">
+          <div className="sidebar-section-title">SOURCER</div>
           <ul className="sidebar-menu">
-            {menuItems.map((item) => (
+            {sourcerItems.map((item) => (
+              <li key={item.name}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) => `sidebar-menu-btn ${isActive ? 'active' : ''}`}
+                  style={{ textDecoration: 'none' }}
+                  onClick={() => {
+                    if (onClose) onClose(); // Close sidebar on mobile item click
+                  }}
+                >
+                  {item.icon}
+                  <span className="menu-text">{item.name}</span>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+
+          <div className="sidebar-section-title" style={{ marginTop: '16px' }}>STUDENT</div>
+          <ul className="sidebar-menu">
+            {studentItems.map((item) => (
               <li key={item.name}>
                 <NavLink
                   to={item.path}

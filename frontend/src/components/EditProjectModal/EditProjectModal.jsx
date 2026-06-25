@@ -18,10 +18,22 @@ export default function EditProjectModal({
   if (!isOpen || !project) return null;
 
   const handleChange = (e) => {
-    setFormData({
+    const { name, value } = e.target;
+    let nextFormData = {
       ...formData,
-      [e.target.name]: e.target.value
-    });
+      [name]: value
+    };
+
+    if (formData.payment_type === 'hourly') {
+      if (name === 'hourly_rate' || name === 'estimated_hours') {
+        const rate = name === 'hourly_rate' ? value : formData.hourly_rate;
+        const hours = name === 'estimated_hours' ? value : formData.estimated_hours;
+        if (rate && hours) {
+          nextFormData.estimated_budget = String(Number(rate) * Number(hours));
+        }
+      }
+    }
+    setFormData(nextFormData);
   };
 
   const handleSubmit = (e) => {
@@ -70,38 +82,112 @@ export default function EditProjectModal({
             />
           </div>
 
-          <div className="edit-modal-row">
-            <div className="edit-modal-field">
-              <label className="edit-modal-label">Budget</label>
-              <div className="edit-modal-input-wrapper">
-                <span className="edit-modal-currency-icon">₹</span>
+          {formData.payment_type !== 'hourly' ? (
+            <>
+              <div className="edit-modal-row">
+                <div className="edit-modal-field">
+                  <label className="edit-modal-label">Budget</label>
+                  <div className="edit-modal-input-wrapper">
+                    <span className="edit-modal-currency-icon">₹</span>
+                    <input
+                      className="edit-modal-input with-icon"
+                      name="budget"
+                      type="number"
+                      value={formData.budget || ""}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="edit-modal-field">
+                  <label className="edit-modal-label">Duration</label>
+                  <input
+                    className="edit-modal-input"
+                    name="duration"
+                    value={formData.duration || ""}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="edit-modal-field full-width">
+                <label className="edit-modal-label">Deadline</label>
                 <input
-                  className="edit-modal-input with-icon"
-                  name="budget"
-                  type="number"
-                  value={formData.budget || ""}
+                  className="edit-modal-input"
+                  type="date"
+                  name="deadline"
+                  value={
+                    formData.deadline
+                      ? formData.deadline.split("T")[0]
+                      : ""
+                  }
                   onChange={handleChange}
                   required
                 />
               </div>
-            </div>
+            </>
+          ) : (
+            <>
+              <div className="edit-modal-row">
+                <div className="edit-modal-field">
+                  <label className="edit-modal-label">Hourly Rate (₹/hour)</label>
+                  <div className="edit-modal-input-wrapper">
+                    <span className="edit-modal-currency-icon">₹</span>
+                    <input
+                      className="edit-modal-input with-icon"
+                      name="hourly_rate"
+                      type="number"
+                      value={formData.hourly_rate || ""}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
 
-            <div className="edit-modal-field">
-              <label className="edit-modal-label">Deadline</label>
-              <input
-                className="edit-modal-input"
-                type="date"
-                name="deadline"
-                value={
-                  formData.deadline
-                    ? formData.deadline.split("T")[0]
-                    : ""
-                }
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
+                <div className="edit-modal-field">
+                  <label className="edit-modal-label">Estimated Hours</label>
+                  <input
+                    className="edit-modal-input"
+                    name="estimated_hours"
+                    type="number"
+                    value={formData.estimated_hours || ""}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="edit-modal-row">
+                <div className="edit-modal-field">
+                  <label className="edit-modal-label">Estimated Budget</label>
+                  <div className="edit-modal-input-wrapper">
+                    <span className="edit-modal-currency-icon">₹</span>
+                    <input
+                      className="edit-modal-input with-icon"
+                      name="estimated_budget"
+                      type="number"
+                      value={formData.estimated_budget || ""}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="edit-modal-field">
+                  <label className="edit-modal-label">Estimated Duration</label>
+                  <input
+                    className="edit-modal-input"
+                    name="estimated_duration"
+                    value={formData.estimated_duration || ""}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="edit-modal-actions">
             <button

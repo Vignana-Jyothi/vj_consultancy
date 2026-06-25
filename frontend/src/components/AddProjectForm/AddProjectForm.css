@@ -350,3 +350,163 @@
   }
 }
 
+/* ─── Payment Type Radio Cards ─── */
+.add-project-form__payment-type-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.add-project-form__radio-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #FAFAF8;
+  border: 1px solid #E3E1D9;
+  border-radius: 10px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  user-select: none;
+}
+
+.add-project-form__radio-card:hover {
+  border-color: #4A4699;
+  background: #F8F7FF;
+}
+
+.add-project-form__radio-card--active {
+  border-color: #4A4699;
+  background: #F8F7FF;
+  box-shadow: 0 0 0 3px rgba(74, 70, 153, 0.12);
+}
+
+.add-project-form__radio-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.add-project-form__radio-custom {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #B0AEA6;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.2s ease;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.add-project-form__radio-input:checked ~ .add-project-form__radio-custom {
+  border-color: #4A4699;
+  background: #4A4699;
+}
+
+.add-project-form__radio-input:checked ~ .add-project-form__radio-custom::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: #FFFFFF;
+  border-radius: 50%;
+}
+
+.add-project-form__radio-label {
+  font-family: -apple-system, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4A4A44;
+  transition: color 0.2s ease;
+}
+
+.add-project-form__radio-input:checked ~ .add-project-form__radio-label {
+  color: #1A1A1A;
+  font-weight: 600;
+}
+
+.add-project-form__required-star {
+  color: #DC2626;
+  margin-left: 2px;
+}
+
+/* ─── Hourly Fields Grid Row ─── */
+.add-project-form__hourly-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.add-project-form__hourly-row .add-project-form__field + .add-project-form__field {
+  margin-top: 0;
+}
+
+/* ─── Hourly Project Notice Card ─── */
+.add-project-form__notice {
+  display: flex;
+  gap: 12px;
+  background: #EBF3FC;
+  border: 1px solid #D2E5FA;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-top: 20px;
+  align-items: flex-start;
+}
+
+.add-project-form__notice-icon {
+  color: #2F80ED;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.add-project-form__notice-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.add-project-form__notice-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.add-project-form__notice-title {
+  font-family: -apple-system, 'Segoe UI', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1B3B6F;
+  margin: 0;
+}
+
+.add-project-form__notice-text {
+  font-family: -apple-system, 'Segoe UI', sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #2A4E84;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ─── Responsive: collapse group below 640px ─── */
+@media (max-width: 640px) {
+  .add-project-form__payment-type-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .add-project-form__hourly-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .add-project-form__hourly-row .add-project-form__field + .add-project-form__field {
+    margin-top: 20px;
+  }
+}
+

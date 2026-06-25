@@ -37,11 +37,20 @@ export default function ViewProjectModal({
 
           <p><strong>Category:</strong> {project.category}</p>
 
-          <p><strong>Budget:</strong> ₹{project.budget}</p>
+          <p><strong>Payment Type:</strong> {project.payment_type === 'hourly' ? 'Hourly' : 'Fixed Price'}</p>
 
-          <p><strong>Duration:</strong> {project.duration}</p>
-
-          <p><strong>Deadline:</strong> {project.deadline}</p>
+          {project.payment_type === 'hourly' ? (
+            <>
+              <p><strong>Estimated Budget:</strong> ₹{project.estimated_budget ? Number(project.estimated_budget).toLocaleString() : '—'}</p>
+              <p><strong>Estimated Duration:</strong> {project.estimated_duration || '—'}</p>
+            </>
+          ) : (
+            <>
+              <p><strong>Budget:</strong> ₹{project.budget ? Number(project.budget).toLocaleString() : '—'}</p>
+              <p><strong>Duration:</strong> {project.duration || '—'}</p>
+              <p><strong>Deadline:</strong> {project.deadline ? new Date(project.deadline).toLocaleDateString('en-IN') : '—'}</p>
+            </>
+          )}
 
           <p><strong>Status:</strong> {project.status}</p>
 

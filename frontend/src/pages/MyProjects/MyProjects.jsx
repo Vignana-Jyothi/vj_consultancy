@@ -123,10 +123,16 @@ export default function MyProjects() {
       const formattedProjects = data.map((project) => ({
         id: project.project_id,
         title: project.title,
-        budget: Number(project.budget),
+        budget: project.budget !== null ? Number(project.budget) : null,
         status: project.status,
         addedOn: project.created_at,
-        deadline: project.deadline
+        deadline: project.deadline,
+        payment_type: project.payment_type || 'fixed',
+        hourly_rate: project.hourly_rate !== null ? Number(project.hourly_rate) : null,
+        estimated_hours: project.estimated_hours !== null ? Number(project.estimated_hours) : null,
+        estimated_budget: project.estimated_budget !== null ? Number(project.estimated_budget) : null,
+        estimated_duration: project.estimated_duration,
+        duration: project.duration
       }));
 
       setProjects(formattedProjects);
@@ -164,7 +170,7 @@ export default function MyProjects() {
 
         {/* Page Header */}
         <div className="dashboard-header-section">
-          <h1 className="dashboard-title">My Projects</h1>
+          <h1 className="dashboard-title">All Projects</h1>
           <p className="dashboard-subtitle">
             View and manage all the projects you have added. You can edit project details even after a project becomes active.
           </p>

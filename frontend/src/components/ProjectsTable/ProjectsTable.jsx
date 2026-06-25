@@ -46,7 +46,9 @@ export default function ProjectsTable({ projects, onViewDetails, onEditProject }
         <thead>
           <tr>
             <th>Project Title</th>
+            <th>Type</th>
             <th>Budget</th>
+            <th>Duration</th>
             <th>Status</th>
             <th>Added On</th>
             <th>Deadline</th>
@@ -56,7 +58,7 @@ export default function ProjectsTable({ projects, onViewDetails, onEditProject }
         <tbody>
           {projects.length === 0 ? (
             <tr>
-              <td colSpan="6" className="table-empty-state">
+              <td colSpan="8" className="table-empty-state">
                 No projects found matching the criteria.
               </td>
             </tr>
@@ -68,8 +70,22 @@ export default function ProjectsTable({ projects, onViewDetails, onEditProject }
                     {project.title}
                   </div>
                 </td>
+                <td>
+                  <span className={`payment-type-badge ${project.payment_type || 'fixed'}`}>
+                    {project.payment_type === 'hourly' ? 'Hourly' : 'Fixed Price'}
+                  </span>
+                </td>
                 <td className="project-budget-cell">
-                  {formatBudget(project.budget)}
+                  {project.payment_type === 'hourly'
+                    ? formatBudget(project.estimated_budget)
+                    : formatBudget(project.budget)
+                  }
+                </td>
+                <td className="project-duration-cell">
+                  {project.payment_type === 'hourly'
+                    ? project.estimated_duration || '—'
+                    : project.duration || '—'
+                  }
                 </td>
                 <td>
                   <span className={`status-badge ${getStatusClass(project.status)}`}>
@@ -80,7 +96,10 @@ export default function ProjectsTable({ projects, onViewDetails, onEditProject }
                   {formatDate(project.addedOn)}
                 </td>
                 <td className="project-date-cell">
-                  {formatDate(project.deadline)}
+                  {project.payment_type === 'hourly'
+                    ? '—'
+                    : formatDate(project.deadline)
+                  }
                 </td>
                 <td className="project-actions-cell">
                   <button

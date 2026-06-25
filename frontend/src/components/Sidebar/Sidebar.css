@@ -56,6 +56,16 @@
   overflow-y: auto;
 }
 
+.sidebar-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 16px 8px 16px;
+  margin: 0;
+}
+
 .sidebar-menu {
   list-style: none;
   padding: 0;

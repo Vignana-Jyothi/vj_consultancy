@@ -10,7 +10,6 @@ router.get("/stats", async (req, res) => {
         const publishedResult = await pool.query(
             "SELECT COUNT(*) FROM projects WHERE status = 'Published'"
         );
-
         const activeResult = await pool.query(
             "SELECT COUNT(*) FROM projects WHERE status = 'Active'"
         );
