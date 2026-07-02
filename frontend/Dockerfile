@@ -17,7 +17,7 @@ ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
 
 RUN npm run build
 
-# ---- Serve stage ----
+# ---- Serve stage -----
 FROM nginx:alpine
 
 RUN addgroup -S nginxgroup && \
