@@ -1,6 +1,6 @@
 FROM node:20-slim
 
-# Create a non-root user with a proper home directory (avoids npm EACCES issues).
+# Create a non-root user with a proper home directory (avoids npm EACCES issues)..
 RUN groupadd -r appgroup && useradd -r -g appgroup -m -d /home/appuser -s /bin/bash appuser
 
 WORKDIR /app
