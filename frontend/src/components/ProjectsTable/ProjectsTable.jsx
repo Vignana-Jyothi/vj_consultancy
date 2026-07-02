@@ -1,4 +1,5 @@
 import React from 'react';
+import { Eye, Edit2 } from 'lucide-react';
 import './ProjectsTable.css';
 
 export default function ProjectsTable({ projects, onViewDetails, onEditProject }) {
@@ -108,19 +109,11 @@ export default function ProjectsTable({ projects, onViewDetails, onEditProject }
                     aria-label={`View details of project ${project.title}`}
                     title="View Details"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="action-icon-svg"
-                    >
-                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
+                    <Eye
+    size={18}
+    strokeWidth={2.3}
+    color="#2563eb"
+/>
                   </button>
                   <button
                     className="action-btn edit-btn"
@@ -128,19 +121,11 @@ export default function ProjectsTable({ projects, onViewDetails, onEditProject }
                     aria-label={`Edit project ${project.title}`}
                     title="Edit Project"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="action-icon-svg"
-                    >
-                      <path d="M12 20h9" />
-                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                    </svg>
+                    <Edit2
+    size={18}
+    strokeWidth={2.3}
+    color="#16a34a"
+/>
                   </button>
                 </td>
               </tr>
@@ -151,3 +136,4 @@ export default function ProjectsTable({ projects, onViewDetails, onEditProject }
     </div>
   );
 }
+

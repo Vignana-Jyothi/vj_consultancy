@@ -27,6 +27,7 @@ export const AuthProvider = ({ children }) => {
             );
 
             setUser(response.data.user);
+            console.log("User Set:", response.data.user);
 
             return response.data;
 

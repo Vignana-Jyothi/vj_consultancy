@@ -25,6 +25,7 @@ import MyProfile from "./pages/MyProfile/MyProfile";
 import BrowseProjects from "./pages/BrowseProject/BrowseProject";
 import StudentDashboard from "./pages/StudentDashboard/StudentDashboard";
 import MyApplications from "./pages/MyApplications/MyApplications";
+import ProjectDetails from "./pages/ProjectDetails/ProjectDetails";
 
 function App() {
   return (
@@ -50,6 +51,10 @@ function App() {
               <Route
                 path="/browse-projects"
                 element={<BrowseProjects />}
+              />
+              <Route
+                  path="/browse-projects/:id"
+                  element={<ProjectDetails />}
               />
 
               <Route

@@ -154,12 +154,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
   background-color: #ffffff;
-  color: var(--text-muted);
   cursor: pointer;
   margin-left: 8px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -168,27 +167,35 @@
 
 .action-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
 }
 
-.action-icon-svg {
-  width: 16px;
-  height: 16px;
+/* View (Eye) Button Style */
+.view-btn {
+  color: #1890ff;
+  border-color: #91d5ff;
+  background-color: #e6f7ff;
 }
 
-/* View (Eye) Button Hover State */
 .view-btn:hover {
-  color: #111827;
-  background-color: #f3f4f6;
-  border-color: #d1d5db;
+  color: #096dd9;
+  background-color: #bae7ff;
+  border-color: #69c0ff;
 }
 
-/* Edit (Pencil) Button Hover State */
-.edit-btn:hover {
-  color: var(--primary-color);
-  background-color: #e0e7ff;
-  border-color: #c7d2fe;
+/* Edit (Pencil) Button Style */
+.edit-btn {
+  color: #52c41a;
+  border-color: #b7eb8f;
+  background-color: #f6ffed;
 }
+
+.edit-btn:hover {
+  color: #389e0d;
+  background-color: #d9f7be;
+  border-color: #95de64;
+}
+
 
 /* Table empty state */
 .table-empty-state {
@@ -231,4 +238,45 @@
   background-color: rgba(99, 102, 241, 0.1);
   color: #4f46e5;
   border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.action-btn svg {
+  width: 18px !important;
+  height: 18px !important;
+  display: block;
+  margin: auto;
+}
+.project-actions-cell{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:10px;
+}
+
+.action-btn{
+    width:38px;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+    flex-shrink:0;
+}
+
+.action-btn svg{
+    width:20px !important;
+    height:20px !important;
+    stroke-width:2.3;
+    overflow:visible;
+    display:block;
+}
+
+.view-btn svg{
+    color:#2563eb !important;
+    stroke:#2563eb !important;
+}
+
+.edit-btn svg{
+    color:#16a34a !important;
+    stroke:#16a34a !important;
 }

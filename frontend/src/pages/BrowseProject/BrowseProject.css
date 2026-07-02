@@ -1,120 +1,433 @@
-.browse-projects-container {
-  padding: 32px;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: #f8fafc;
+/* ===========================================================
+   Dashboard Layout
+=========================================================== */
+
+.student-dashboard-layout {
   min-height: 100vh;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  display: flex;
+  background: #f8fafc;
+}
+
+.student-dashboard-main {
+  flex: 1;
+  margin-left: 260px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dashboard-content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===========================================================
+   Mobile Navbar
+=========================================================== */
+
+.dashboard-navbar {
+  display: none;
+  height: 60px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0 16px;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-toggle-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.navbar-brand {
+  font-size: 16px;
+  font-weight: 700;
+  color: #4f46e5;
+}
+
+/* ===========================================================
+   Page
+=========================================================== */
+
+.browse-projects-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .browse-header {
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .page-title {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: #1e293b;
-  margin: 0 0 8px 0;
-}
-
-.page-subtitle {
-  font-size: 1rem;
-  color: #64748b;
   margin: 0;
 }
 
+.page-subtitle {
+  margin-top: 10px;
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ===========================================================
+   Filter Card
+=========================================================== */
+
 .filter-section {
+
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+
   align-items: center;
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  margin-bottom: 32px;
+
   gap: 16px;
+
+  background: #ffffff;
+
   border: 1px solid #e2e8f0;
+
+  border-radius: 16px;
+
+  padding: 22px;
+
+  margin-bottom: 32px;
+
+  box-shadow:
+      0 4px 12px rgba(15,23,42,.05);
+
 }
 
 .search-container {
+
   flex: 1;
-  max-width: 400px;
+
+  min-width: 320px;
+
 }
 
 .search-input {
+
   width: 100%;
-  padding: 10px 16px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 0.875rem;
+
+  height: 48px;
+
+  padding: 0 18px;
+
+  border-radius: 10px;
+
+  border: 1px solid #dbe2ea;
+
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+
+  font-size: .95rem;
+
+  transition: .2s;
+
 }
 
 .search-input:focus {
+
   border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+
+  box-shadow: 0 0 0 3px rgba(79,70,229,.12);
+
 }
 
 .filters-container {
+
   display: flex;
+
+  flex-wrap: wrap;
+
   gap: 12px;
+
 }
 
 .filter-dropdown {
-  padding: 10px 36px 10px 16px;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  background-color: #ffffff;
-  font-size: 0.875rem;
-  color: #334155;
-  cursor: pointer;
+
+  height: 48px;
+
+  min-width: 160px;
+
+  padding: 0 42px 0 16px;
+
+  border-radius: 10px;
+
+  border: 1px solid #dbe2ea;
+
+  background: white;
+
+  font-size: .95rem;
+
   outline: none;
+
+  cursor: pointer;
+
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+
+  background-image:
+url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+
   background-repeat: no-repeat;
-  background-position: right 12px center;
+
+  background-position: right 14px center;
+
   background-size: 16px;
-  transition: border-color 0.2s;
+
 }
 
 .filter-dropdown:focus {
+
   border-color: #4f46e5;
+
+  box-shadow: 0 0 0 3px rgba(79,70,229,.12);
+
 }
+/* ===========================================================
+   Projects Grid
+=========================================================== */
 
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+
+    gap: 28px;
+
+    width: 100%;
+
+    align-items: start;
+
 }
 
-/* Responsive Layout */
-@media (max-width: 1024px) {
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* ===========================================================
+   Large Screens
+=========================================================== */
+
+@media (min-width: 1600px) {
+
+    .projects-grid {
+
+        grid-template-columns: repeat(3, 1fr);
+
+    }
+
 }
 
-@media (max-width: 768px) {
-  .browse-projects-container {
-    padding: 16px;
-  }
-  
-  .filter-section {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .search-container {
-    max-width: 100%;
-  }
-  
-  .filters-container {
-    flex-direction: column;
-  }
-  
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
+/* ===========================================================
+   Laptop
+=========================================================== */
+
+@media (max-width: 1400px) {
+
+    .projects-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+}
+
+/* ===========================================================
+   Tablet Layout
+=========================================================== */
+
+@media (max-width:1024px){
+
+.student-dashboard-main{
+
+    margin-left:0;
+
+    padding:24px;
+
+}
+
+.dashboard-navbar{
+
+    display:flex;
+
+    margin:-24px -24px 24px;
+
+}
+
+.filter-section{
+
+    flex-direction:column;
+
+    align-items:stretch;
+
+}
+
+.search-container{
+
+    min-width:100%;
+
+}
+
+.filters-container{
+
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:12px;
+
+}
+
+.filter-dropdown{
+
+    width:100%;
+
+}
+
+.projects-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+
+/* ===========================================================
+   Mobile
+=========================================================== */
+
+@media(max-width:768px){
+
+.browse-projects-container{
+
+    width:100%;
+
+}
+
+.page-title{
+
+    font-size:1.8rem;
+
+}
+
+.page-subtitle{
+
+    font-size:.95rem;
+
+}
+
+.filter-section{
+
+    padding:18px;
+
+}
+
+.filters-container{
+
+    grid-template-columns:1fr;
+
+}
+
+.search-input{
+
+    height:46px;
+
+}
+
+.filter-dropdown{
+
+    height:46px;
+
+}
+
+.projects-grid{
+
+    gap:20px;
+
+}
+
+}
+
+/* ===========================================================
+   Small Mobile
+=========================================================== */
+
+@media(max-width:640px){
+
+.student-dashboard-main{
+
+    padding:16px;
+
+}
+
+.dashboard-navbar{
+
+    margin:-16px -16px 20px;
+
+}
+
+.page-title{
+
+    font-size:1.55rem;
+
+}
+
+.filter-section{
+
+    padding:16px;
+
+}
+
+.projects-grid{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+
+/* ===========================================================
+   Very Small Devices
+=========================================================== */
+
+@media(max-width:480px){
+
+.search-input{
+
+    font-size:.9rem;
+
+}
+
+.filter-dropdown{
+
+    font-size:.9rem;
+
+    min-width:100%;
+
+}
+
+.page-subtitle{
+
+    line-height:1.5;
+
+}
+
 }

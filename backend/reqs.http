@@ -30,3 +30,7 @@ Content-Type: application/json
   "source_website": "upwork"
 }
 
+###
+GET http://localhost:2999/verify-token
+
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjI0MDcxYTEyMjRAdm5ydmppZXQuaW4iLCJuYW1lIjoiR1VSUkFQVSBWRU5ORUxBIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0pZMXNMbmQwTWtRdllObFdlR3ZzYlBhZWNQbGU1elFFMU82U2NzWUE2SG4xX3l6Zz1zOTYtYyIsImZhbWlseV9uYW1lIjoiVkVOTkVMQSIsImlhdCI6MTc4MjgxNTczNSwiZXhwIjoxNzg1NDA3NzM1fQ.Zdae6gUjqiiaXHnG978Qv1-VtU9UGD99QumtZUR9cG8

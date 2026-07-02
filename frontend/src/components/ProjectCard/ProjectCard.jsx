@@ -1,7 +1,9 @@
 import React from 'react';
 import './ProjectCard.css';
+import { useNavigate } from "react-router-dom";
 
 const ProjectCard = ({ project }) => {
+  const navigate = useNavigate();
   return (
     <div className="project-card">
       <div className="project-card-header">
@@ -73,7 +75,11 @@ const ProjectCard = ({ project }) => {
           <span className="app-label">Applications</span>
           <span className="app-count">0 / 0</span>
         </div>
-        <button className="view-details-btn">View Details</button>
+        <button
+    className="view-details-btn"
+    onClick={() => navigate(`/browse-projects/${project.project_id}`)}>
+    View Details
+        </button>
       </div>
     </div>
   );

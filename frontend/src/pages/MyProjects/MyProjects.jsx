@@ -5,7 +5,7 @@ import ProjectsTable from '../../components/ProjectsTable/ProjectsTable';
 import './MyProjects.css';
 import ViewProjectModal from '../../components/ViewProjectModal/ViewProjectModal';
 import EditProjectModal from '../../components/EditProjectModal/EditProjectModal';
-
+import axios from "axios";
 export default function MyProjects() {
   const [selectedProject, setSelectedProject] = useState(null);
  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -15,20 +15,17 @@ export default function MyProjects() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [editProject, setEditProject] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
+  
   const navigate = useNavigate();
   const handleUpdateProject = async (updatedProject) => {
 
   try {
 
-    await fetch(
+    await axios.put(
       `http://localhost:8000/api/projects/${updatedProject.project_id}`,
+      updatedProject,
       {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(updatedProject)
+        withCredentials: true,
       }
     );
 
@@ -38,7 +35,7 @@ export default function MyProjects() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error("Update Project Error:", error);
 
   }
 
@@ -63,43 +60,47 @@ export default function MyProjects() {
     return matchesSearch && matchesStatus;
   });
 
-  // Action handlers
   const handleViewDetails = async (id) => {
+
   try {
 
-    const response = await fetch(
-      `http://localhost:8000/api/projects/${id}`
+    const response = await axios.get(
+      `http://localhost:8000/api/projects/${id}`,
+      {
+        withCredentials: true,
+      }
     );
 
-    const project = await response.json();
+    setSelectedProject(response.data);
 
-    setSelectedProject(project);
     setIsViewModalOpen(true);
 
   } catch (error) {
 
-    console.error(error);
+    console.error("View Project Error:", error);
 
   }
+
 };
 
-  const handleEditProject = async (id) => {
+ const handleEditProject = async (id) => {
 
   try {
 
-    const response = await fetch(
-      `http://localhost:8000/api/projects/${id}`
+    const response = await axios.get(
+      `http://localhost:8000/api/projects/${id}`,
+      {
+        withCredentials: true,
+      }
     );
 
-    const project = await response.json();
-
-    setEditProject(project);
+    setEditProject(response.data);
 
     setIsEditModalOpen(true);
 
   } catch (error) {
 
-    console.error(error);
+    console.error("Edit Project Error:", error);
 
   }
 
@@ -114,32 +115,42 @@ export default function MyProjects() {
 
     try {
 
-      const response = await fetch(
-        "http://localhost:8000/api/projects"
+      const response = await axios.get(
+        "http://localhost:8000/api/projects",
+        {
+          withCredentials: true,
+        }
       );
 
-      const data = await response.json();
-
-      const formattedProjects = data.map((project) => ({
+      const formattedProjects = response.data.map((project) => ({
         id: project.project_id,
         title: project.title,
         budget: project.budget !== null ? Number(project.budget) : null,
         status: project.status,
         addedOn: project.created_at,
         deadline: project.deadline,
-        payment_type: project.payment_type || 'fixed',
-        hourly_rate: project.hourly_rate !== null ? Number(project.hourly_rate) : null,
-        estimated_hours: project.estimated_hours !== null ? Number(project.estimated_hours) : null,
-        estimated_budget: project.estimated_budget !== null ? Number(project.estimated_budget) : null,
+        payment_type: project.payment_type || "fixed",
+        hourly_rate:
+          project.hourly_rate !== null
+            ? Number(project.hourly_rate)
+            : null,
+        estimated_hours:
+          project.estimated_hours !== null
+            ? Number(project.estimated_hours)
+            : null,
+        estimated_budget:
+          project.estimated_budget !== null
+            ? Number(project.estimated_budget)
+            : null,
         estimated_duration: project.estimated_duration,
-        duration: project.duration
+        duration: project.duration,
       }));
 
       setProjects(formattedProjects);
 
     } catch (error) {
 
-      console.error(error);
+      console.error("Fetch Projects Error:", error);
 
     }
 

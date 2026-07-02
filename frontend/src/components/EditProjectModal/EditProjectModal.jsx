@@ -81,6 +81,20 @@ export default function EditProjectModal({
               rows={4}
             />
           </div>
+          <div className="edit-modal-field full-width">
+  <label className="edit-modal-label">
+    Client Requirements
+  </label>
+
+  <textarea
+    className="edit-modal-textarea"
+    name="client_requirements"
+    value={formData.client_requirements || ""}
+    onChange={handleChange}
+    rows={4}
+    placeholder="Enter client requirements..."
+  />
+</div>
 
           {formData.payment_type !== 'hourly' ? (
             <>

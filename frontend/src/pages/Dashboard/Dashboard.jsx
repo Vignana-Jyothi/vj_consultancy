@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import SummaryCard from '../../components/SummaryCard/SummaryCard';
 import ActivityList from '../../components/ActivityList/ActivityList';
@@ -20,43 +21,47 @@ export default function Dashboard() {
 
   useEffect(() => {
 
-  async function fetchDashboardData() {
+    async function fetchDashboardData() {
 
-    try {
+      try {
 
-      const statsResponse = await fetch(
-        "http://localhost:8000/api/dashboard/stats"
-      );
+        // Fetch Dashboard Statistics
+        const statsResponse = await axios.get(
+          "http://localhost:8000/api/dashboard/stats",
+          {
+            withCredentials: true,
+          }
+        );
 
-      const statsData = await statsResponse.json();
+        setStats(statsResponse.data);
 
-      setStats(statsData);
+        // Fetch Recent Activities
+        const activitiesResponse = await axios.get(
+          "http://localhost:8000/api/dashboard/activities",
+          {
+            withCredentials: true,
+          }
+        );
 
-      const activitiesResponse = await fetch(
-        "http://localhost:8000/api/dashboard/activities"
-      );
+        const formattedActivities = activitiesResponse.data.map((activity) => ({
+          id: activity.activity_id,
+          title: activity.message,
+          time: new Date(activity.created_at).toLocaleString(),
+        }));
 
-      const activitiesData = await activitiesResponse.json();
+        setActivities(formattedActivities);
 
-      const formattedActivities = activitiesData.map((activity) => ({
-        id: activity.activity_id,
-        title: activity.message,
-        time: new Date(activity.created_at).toLocaleString()
-      }));
+      } catch (error) {
 
-      setActivities(formattedActivities);
+        console.error("Dashboard Error:", error);
 
-    } catch (error) {
-
-      console.error(error);
+      }
 
     }
 
-  }
+    fetchDashboardData();
 
-  fetchDashboardData();
-
-}, []);
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);

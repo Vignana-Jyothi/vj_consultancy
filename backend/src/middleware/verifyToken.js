@@ -1,27 +1,52 @@
-import jwt from "jsonwebtoken";
+import axios from "axios";
 
-const verifyToken = (req, res, next) => {
+const AUTH_URL = process.env.AUTH_URL || "http://localhost:2999";
+
+const verifyToken = async (req, res, next) => {
+
     try {
 
-        const token = req.cookies.token;
+        // Get JWT from Cookie
+        const token = req.cookies.userToken;
 
         if (!token) {
+
             return res.status(401).json({
                 success: false,
                 message: "Unauthorized"
             });
+
         }
 
-        const decoded = jwt.verify(
-            token,
-            process.env.JWT_SECRET
+        // Verify Token with Auth Server
+        const response = await axios.post(
+            `${AUTH_URL}/verify-token`,
+            {
+                token
+            }
         );
 
-        req.user = decoded;
+        // Check Auth Server Response
+        if (!response.data.valid) {
 
+            return res.status(401).json({
+                success: false,
+                message: "Invalid Token"
+            });
+
+        }
+
+        // Store Logged-in User
+        req.user = response.data.user;
+       console.log(req.user);
         next();
 
-    } catch (err) {
+    } catch (error) {
+
+        console.error(
+            "Token verification failed:",
+            error.response?.data || error.message
+        );
 
         return res.status(401).json({
             success: false,
@@ -29,6 +54,7 @@ const verifyToken = (req, res, next) => {
         });
 
     }
+
 };
 
 export default verifyToken;

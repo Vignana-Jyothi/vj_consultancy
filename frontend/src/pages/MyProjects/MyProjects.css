@@ -112,11 +112,13 @@
   flex: 1;
   max-width: 420px;
   min-width: 260px;
+  display: flex;
+  align-items: center;
 }
 
 .search-icon {
   position: absolute;
-  left: 14px;
+  left: 16px;
   top: 50%;
   transform: translateY(-50%);
   width: 18px;
@@ -127,15 +129,19 @@
 
 .search-input {
   width: 100%;
-  padding: 10px 14px 10px 42px;
+  height: 42px; /* Same height as buttons and selects */
+  padding: 10px 16px 10px 44px;
   font-size: 0.9rem;
   font-family: var(--font-sans);
   color: var(--text-main, #111827);
   background-color: #ffffff;
   border: 1px solid var(--border-color, #e5e7eb);
-  border-radius: 8px;
+  border-radius: 9999px; /* Modern fully rounded input */
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 }
 
 .search-input::placeholder {
@@ -144,8 +150,9 @@
 
 .search-input:focus {
   border-color: var(--primary-color, #4f46e5);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
+
 
 /* Right filters & buttons group */
 .toolbar-filters-group {
@@ -164,13 +171,14 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding: 10px 40px 10px 16px;
+  padding: 0 40px 0 16px;
+  height: 42px; /* Set height matching search bar */
   font-size: 0.9rem;
   font-family: var(--font-sans);
   color: var(--text-main, #111827);
   background-color: #ffffff;
   border: 1px solid var(--border-color, #e5e7eb);
-  border-radius: 8px;
+  border-radius: 9999px; /* Modern fully rounded input */
   outline: none;
   cursor: pointer;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -178,11 +186,12 @@
   background-repeat: no-repeat;
   background-position: right 14px center;
   background-size: 16px;
+  box-sizing: border-box;
 }
 
 .filter-select:focus {
   border-color: var(--primary-color, #4f46e5);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
 /* Primary "Add New Project" button styling */
@@ -194,8 +203,9 @@
   background-color: var(--primary-color, #4f46e5);
   color: #ffffff;
   border: 1px solid var(--primary-color, #4f46e5);
-  border-radius: 8px;
-  padding: 10px 18px;
+  border-radius: 9999px; /* Modern fully rounded button */
+  padding: 0 20px;
+  height: 42px; /* Set height matching search bar */
   font-size: 0.9rem;
   font-weight: 500;
   font-family: var(--font-sans);
@@ -203,6 +213,7 @@
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .add-new-btn:hover {

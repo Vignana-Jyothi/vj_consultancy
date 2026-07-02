@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AddProjectForm.css';
+import axios from "axios";
 const CATEGORY_OPTIONS = [
   'Web Development',
   'Mobile Development',
-  'Data Analysis',
   'UI/UX Design',
   'Other',
 ];
@@ -14,6 +14,7 @@ function AddProjectForm() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [clientRequirements, setClientRequirements] = useState('');
   const [skills, setSkills] = useState('');
   const [category, setCategory] = useState('');
   const [budget, setBudget] = useState('');
@@ -32,6 +33,7 @@ function AddProjectForm() {
   const resetForm = () => {
     setTitle('');
     setDescription('');
+    setClientRequirements('');
     setSkills('');
     setCategory('');
     setBudget('');
@@ -85,6 +87,10 @@ function AddProjectForm() {
     alert("Project description must contain at least 20 characters");
     return;
   }
+  if (clientRequirements.trim().length < 10) {
+  alert("Client requirements must contain at least 10 characters");
+  return;
+}
 
   if (!skills.trim()) {
     alert("Skills field is required");
@@ -143,6 +149,7 @@ function AddProjectForm() {
   const formData = {
     title,
     description,
+    client_requirements: clientRequirements,
     skills,
     category,
     source_website: sourceWebsite,
@@ -159,44 +166,40 @@ function AddProjectForm() {
     formData.estimated_budget = Number(budget);
     formData.estimated_duration = duration;
   }
+try {
 
-  try {
-
-    const response = await fetch(
-      "http://localhost:8000/api/projects",
-      {
-        method: "POST",
+    const response = await axios.post(
+    "http://localhost:8000/api/projects",
+    formData,
+    {
+        withCredentials: true,
         headers: {
-          "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message);
     }
-    console.log(data);
+);
+    console.log(response.data);
 
-    // Clear form after successful insertion
     resetForm();
 
     setIsSuccess(true);
     setShowModal(true);
 
-  } catch (error) {
+} catch (error) {
 
     console.error(error);
-    alert(error.message || "Failed to publish project");
 
-  } finally {
+    alert(
+      error.response?.data?.message ||
+      "Failed to publish project"
+    );
+
+} finally {
 
     setIsSubmitting(false);
 
   }
-}
+  }
 
   const handleAddAnother = () => {
     setShowModal(false);
@@ -256,6 +259,30 @@ function AddProjectForm() {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
+        {/* Client Requirements */}
+<div className="add-project-form__field">
+  <label
+    className="add-project-form__label"
+    htmlFor="client-requirements"
+  >
+    <span
+      className="add-project-form__label-dot"
+      aria-hidden="true"
+    />
+    Client Requirements
+  </label>
+
+  <textarea
+    id="client-requirements"
+    className="add-project-form__textarea"
+    rows={4}
+    placeholder="Enter client requirements..."
+    value={clientRequirements}
+    onChange={(e) =>
+      setClientRequirements(e.target.value)
+    }
+  />
+</div>
 
         {/* 3. Required Skills */}
         <div className="add-project-form__field">
