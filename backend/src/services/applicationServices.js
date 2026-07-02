@@ -106,19 +106,35 @@ export async function getMyApplications(email) {
     const result = await pool.query(
         `
         SELECT
-            a.*,
+            a.application_id,
+            a.project_id,
+            a.student_email,
+            a.status,
+            a.applied_at,
+            a.resume_url,
+            a.cover_note,
+            a.additional_comments,
+
+            p.updated_at AS updated_at,
             p.title,
             p.category,
-            p.payment_type
+            p.payment_type,
+            p.budget,
+            p.estimated_budget,
+            p.duration,
+            p.estimated_duration
+
         FROM applications a
+
         JOIN projects p
-        ON a.project_id=p.project_id
-        WHERE a.student_email=$1
-        ORDER BY applied_at DESC
+        ON a.project_id = p.project_id
+
+        WHERE a.student_email = $1
+
+        ORDER BY a.applied_at DESC
         `,
         [email]
     );
 
     return result.rows;
-
 }

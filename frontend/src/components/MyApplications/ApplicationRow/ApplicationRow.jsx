@@ -3,11 +3,17 @@ import * as Icons from 'lucide-react';
 import './ApplicationRow.css';
 
 export default function ApplicationRow({ application, onViewDetails }) {
-  const { id, projectName, description, projectIcon, appliedDate, relativeDate, status, lastUpdated } = application;
-
+const {
+  title,
+  category,
+  status,
+  applied_at,
+  payment_type,
+  budget,
+  estimated_budget
+} = application;
   // Resolve Lucide Icon
-  const IconComponent = Icons[projectIcon] || Icons.Folder;
-
+const IconComponent = Icons.Briefcase;
   const getStatusClass = (statusStr) => {
     switch (statusStr.toLowerCase()) {
       case 'applied':
@@ -27,7 +33,15 @@ export default function ApplicationRow({ application, onViewDetails }) {
         return '';
     }
   };
+  const formatDate = (date) => {
+  if (!date) return "-";
 
+  return new Date(date).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+};
   const handleClick = (e) => {
     onViewDetails(application);
   };
@@ -37,50 +51,56 @@ export default function ApplicationRow({ application, onViewDetails }) {
       {/* Project info column */}
       <td className="cell-project-app">
         <div className="project-app-wrapper">
-          <div className={`project-app-icon status-bg-${status.toLowerCase().replace(' ', '-')}`}>
+          <div
+  className={`project-app-icon status-bg-${(status || "")
+    .toLowerCase()
+    .replace(" ", "-")}`}
+>
             <IconComponent size={18} />
           </div>
           <div className="project-app-details">
-            <span className="project-app-name">{projectName}</span>
-            <span className="project-app-desc">{description}</span>
+            <span className="project-app-name">{title}</span>
+            <span className="project-app-desc">{category || payment_type}</span>
           </div>
         </div>
       </td>
 
-      {/* Applied date column */}
-      <td className="cell-applied-app">
-        <div className="date-stack">
-          <span className="primary-date">{appliedDate}</span>
-          <span className="relative-date-sub">{relativeDate}</span>
-        </div>
-      </td>
+      {/* Payment */}
+<td className="cell-payment-app">
+  {payment_type || "-"}
+</td>
 
-      {/* Status column */}
-      <td className="cell-status-app">
-        <span className={`status-badge-app ${getStatusClass(status)}`}>
-          <span className="status-badge-dot"></span>
-          {status}
-        </span>
-      </td>
+{/* Budget */}
+<td className="cell-budget-app">
+  ₹ {budget || estimated_budget || "-"}
+</td>
 
-      {/* Last updated column */}
-      <td className="cell-updated-app">
-        <span className="updated-date">{lastUpdated}</span>
-      </td>
+{/* Applied On */}
+<td className="cell-applied-app">
+  {formatDate(applied_at)}
+</td>
 
-      {/* Action button column */}
-      <td className="cell-action-app">
-        <button
-          className="track-progress-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            onViewDetails(application);
-          }}
-          type="button"
-        >
-          Track Progress
-        </button>
-      </td>
-    </tr>
+{/* Status */}
+<td className="cell-status-app">
+  <span className={`status-badge-app ${getStatusClass(status || "")}`}>
+    <span className="status-badge-dot"></span>
+    {status}
+  </span>
+</td>
+
+{/* Action */}
+<td className="cell-action-app">
+  <button
+    className="track-progress-btn"
+    onClick={(e) => {
+      e.stopPropagation();
+      onViewDetails(application);
+    }}
+    type="button"
+  >
+    Track Progress
+  </button>
+</td>
+</tr>
   );
 }

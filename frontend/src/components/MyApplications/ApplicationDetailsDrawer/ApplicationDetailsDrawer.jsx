@@ -5,11 +5,20 @@ import './ApplicationDetailsDrawer.css';
 export default function ApplicationDetailsDrawer({ application, isOpen, onClose }) {
   if (!application) return null;
 
-  const { projectName, status, appliedDate, relativeDate, projectIcon, resumeFile, coverLetter, remarks, nextStep, timeline } = application;
-  
+  const {
+  title,
+  category,
+ status,
+  applied_at,
+  payment_type,
+  budget,
+  estimated_budget,
+  resume_url,
+  cover_note,
+  additional_comments
+} = application;  
   const [isCoverLetterExpanded, setIsCoverLetterExpanded] = useState(false);
-  const ProjectIcon = Icons[projectIcon] || Icons.Folder;
-
+  const ProjectIcon = Icons.Briefcase;
   const stagesOrder = ['Applied', 'Under Review', 'Shortlisted', 'Interview', 'Selected'];
   
   const getStageStatus = (stageName) => {
@@ -22,10 +31,9 @@ export default function ApplicationDetailsDrawer({ application, isOpen, onClose 
       'selected': 4,
       'rejected': -1
     };
-
-    const currentIndex = statusMap[status.toLowerCase()] ?? 0;
+    const currentIndex = statusMap[(status || "").toLowerCase()] ?? 0;
     
-    if (status.toLowerCase() === 'rejected') {
+    if ((status || "").toLowerCase() === 'rejected') {
       if (stageName === 'Applied') return 'completed';
       if (stageName === 'Under Review') return 'rejected';
       return 'upcoming';
@@ -36,7 +44,15 @@ export default function ApplicationDetailsDrawer({ application, isOpen, onClose 
     if (stageIndex === currentIndex) return 'current';
     return 'upcoming';
   };
+     const formatDate = (date) => {
+  if (!date) return "-";
 
+  return new Date(date).toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric"
+  });
+};
   return (
     <div className={`drawer-overlay ${isOpen ? 'drawer-open' : ''}`} onClick={onClose}>
       <div className="drawer-container" onClick={(e) => e.stopPropagation()}>
@@ -47,9 +63,9 @@ export default function ApplicationDetailsDrawer({ application, isOpen, onClose 
               <ProjectIcon size={20} />
             </div>
             <div className="drawer-header-title-wrapper">
-              <h2 className="drawer-project-name">{projectName}</h2>
+              <h2 className="drawer-project-name">{title}</h2>
               <span className="drawer-applied-date">
-                Applied {appliedDate} ({relativeDate})
+                Applied on {formatDate(applied_at)}
               </span>
             </div>
           </div>
@@ -63,7 +79,7 @@ export default function ApplicationDetailsDrawer({ application, isOpen, onClose 
           {/* Status Alert Badge */}
           <div className="drawer-section status-section-drawer">
             <h4 className="drawer-section-title">Current Status</h4>
-            <div className={`drawer-status-banner status-bg-banner-${status.toLowerCase().replace(' ', '-')}`}>
+            <div className={`drawer-status-banner status-bg-banner-${(status || "").toLowerCase().replace(' ', '-')}`}>
               <span className="status-banner-text">{status}</span>
             </div>
           </div>
@@ -72,27 +88,44 @@ export default function ApplicationDetailsDrawer({ application, isOpen, onClose 
           <div className="drawer-section">
             <h4 className="drawer-section-title">Application Journey</h4>
             <div className="vertical-timeline">
-              {timeline.map((step, index) => {
-                const stageStatus = getStageStatus(step.stage);
-                return (
-                  <div key={index} className={`timeline-node-item ${stageStatus}`}>
-                    <div className="timeline-marker">
-                      <div className="timeline-dot">
-                        {stageStatus === 'completed' && <Icons.Check size={10} className="check-svg" />}
-                        {stageStatus === 'rejected' && <Icons.X size={10} className="check-svg" />}
-                      </div>
-                      {index < timeline.length - 1 && <div className="timeline-line"></div>}
-                    </div>
-                    <div className="timeline-content">
-                      <div className="timeline-content-header">
-                        <span className="timeline-stage-name">{step.stage}</span>
-                        <span className="timeline-stage-date">{step.date}</span>
-                      </div>
-                      <p className="timeline-stage-desc">{step.description}</p>
-                    </div>
-                  </div>
-                );
-              })}
+  {stagesOrder.map((stage, index) => {
+
+    const stageStatus = getStageStatus(stage);
+
+    return (
+      <div
+        key={stage}
+        className={`timeline-node-item ${stageStatus}`}
+      >
+        <div className="timeline-marker">
+          <div className="timeline-dot">
+            {stageStatus === "completed" && (
+              <Icons.Check size={10} className="check-svg" />
+            )}
+
+            {stageStatus === "rejected" && (
+              <Icons.X size={10} className="check-svg" />
+            )}
+          </div>
+
+          {index < stagesOrder.length - 1 && (
+            <div className="timeline-line"></div>
+          )}
+        </div>
+
+        <div className="timeline-content">
+          <div className="timeline-content-header">
+            <span className="timeline-stage-name">
+              {stage}
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+
+  })}
+</div>
+              
             </div>
           </div>
 
@@ -102,7 +135,7 @@ export default function ApplicationDetailsDrawer({ application, isOpen, onClose 
             <div className="resume-download-card">
               <div className="resume-card-left">
                 <Icons.FileText size={20} className="resume-icon-file" />
-                <span className="resume-filename">{resumeFile}</span>
+                <span className="resume-filename">{resume_url}</span>
               </div>
               <button className="resume-download-btn" title="Download Resume" type="button">
                 <Icons.Download size={16} />
@@ -115,7 +148,7 @@ export default function ApplicationDetailsDrawer({ application, isOpen, onClose 
             <h4 className="drawer-section-title">Cover Letter</h4>
             <div className="cover-letter-card">
               <p className={`cover-letter-text ${isCoverLetterExpanded ? 'expanded' : ''}`}>
-                {coverLetter}
+                {cover_note}
               </p>
               <button
                 className="cover-letter-toggle-btn"
@@ -129,31 +162,16 @@ export default function ApplicationDetailsDrawer({ application, isOpen, onClose 
           </div>
 
           {/* Coordinator Remarks */}
-          {remarks && (
+          {additional_comments && (
             <div className="drawer-section">
               <h4 className="drawer-section-title">Remarks from Coordinator</h4>
               <div className="remarks-box">
                 <Icons.MessageSquare size={16} className="remarks-icon" />
-                <p className="remarks-text">{remarks}</p>
+                <p className="remarks-text">{additional_comments}</p>
               </div>
             </div>
           )}
-
-          {/* Next Steps */}
-          {nextStep && (
-            <div className="drawer-section next-steps-section">
-              <h4 className="drawer-section-title">Next Step</h4>
-              <div className="next-step-box">
-                <Icons.Calendar size={18} className="next-step-icon" />
-                <div className="next-step-details">
-                  <span className="next-step-title">{nextStep}</span>
-                  <p className="next-step-desc">You will receive an email notification.</p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
       </div>
-    </div>
-  );
+      </div>
+          );
 }

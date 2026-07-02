@@ -25,25 +25,28 @@
   white-space: nowrap;
   z-index: 10;
 }
-
 .col-project-app {
-  width: 40%;
+  width: 34%;
+}
+
+.col-payment-app {
+  width: 12%;
+}
+
+.col-budget-app {
+  width: 14%;
 }
 
 .col-applied-app {
-  width: 15%;
+  width: 16%;
 }
 
 .col-status-app {
-  width: 15%;
-}
-
-.col-updated-app {
-  width: 15%;
+  width: 14%;
 }
 
 .col-action-app {
-  width: 15%;
+  width: 10%;
   text-align: right;
 }
 
