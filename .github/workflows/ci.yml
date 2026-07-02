@@ -7,8 +7,8 @@ on:
     branches: [main, develop]
 
 jobs:
-  backend-lint:
-    name: Backend Lint/Check
+  backend-check:
+    name: Backend Install Check
     runs-on: self-hosted
     defaults:
       run:
@@ -30,7 +30,7 @@ jobs:
   frontend-lint:
     name: Frontend Lint & Build Check
     runs-on: self-hosted
-    needs: backend-lint
+    needs: backend-check
     defaults:
       run:
         working-directory: frontend
@@ -54,14 +54,14 @@ jobs:
 
       - name: Build check
         env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_AUTH_URL: ${{ secrets.VITE_AUTH_URL }}
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
         run: npm run build
 
   deploy:
     name: Build & Deploy Docker Containers
     runs-on: self-hosted
-    needs: [backend-lint, frontend-lint]
+    needs: [backend-check, frontend-lint]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
@@ -74,14 +74,12 @@ jobs:
       - name: Create .env file
         run: |
           cat << EOF > .env
-          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          DB_USER=${{ secrets.DB_USER }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          PORT=${{ secrets.PORT }}
           JWT_SECRET=${{ secrets.JWT_SECRET }}
-          CLIENT_ORIGIN=${{ secrets.CLIENT_ORIGIN }}
-          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
-          VITE_API_URL=${{ secrets.VITE_API_URL }}
+          VITE_AUTH_URL=${{ secrets.VITE_AUTH_URL }}
           VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}
           EOF
 
@@ -93,7 +91,7 @@ jobs:
       - name: Build Docker images
         run: |
           docker compose build \
-            --build-arg VITE_API_URL=${{ secrets.VITE_API_URL }} \
+            --build-arg VITE_AUTH_URL=${{ secrets.VITE_AUTH_URL }} \
             --build-arg VITE_GOOGLE_CLIENT_ID=${{ secrets.VITE_GOOGLE_CLIENT_ID }}
 
       - name: Start containers
