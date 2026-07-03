@@ -1,0 +1,47 @@
+/* ============================================================
+   WelcomeSection
+   ============================================================ */
+
+.welcome-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.welcome-text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.welcome-heading {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.welcome-subtext {
+  font-size: 0.9625rem;
+  color: #64748b;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 640px) {
+  .welcome-heading {
+    font-size: 1.5rem;
+  }
+
+  .welcome-subtext {
+    font-size: 0.9rem;
+  }
+}

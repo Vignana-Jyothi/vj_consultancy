@@ -1,0 +1,153 @@
+/* ============================================================
+   RecentApplications Card
+   ============================================================ */
+
+.ra-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.ra-card__header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ra-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ra-card__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #3b82f6;
+  flex-shrink: 0;
+}
+
+.ra-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* ── List ───────────────────────────────────────────────────── */
+.ra-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ra-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 24px;
+  border-bottom: 1px solid #f8fafc;
+  transition: background-color 0.15s ease;
+}
+
+.ra-item:last-child {
+  border-bottom: none;
+}
+
+.ra-item:hover {
+  background-color: #f8fafc;
+}
+
+.ra-item__left {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.ra-item__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ra-item__date {
+  font-size: 0.775rem;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+/* ── Status Badge ───────────────────────────────────────────── */
+.ra-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ra-badge--applied     { background: #eff6ff; color: #2563eb; }
+.ra-badge--review      { background: #fefce8; color: #ca8a04; }
+.ra-badge--shortlisted { background: #f5f3ff; color: #7c3aed; }
+.ra-badge--interview   { background: #fff7ed; color: #ea580c; }
+.ra-badge--selected    { background: #f0fdf4; color: #15803d; }
+.ra-badge--rejected    { background: #fef2f2; color: #dc2626; }
+
+/* ── Empty state ───────────────────────────────────────────── */
+.ra-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  gap: 10px;
+}
+
+.ra-empty__icon {
+  color: #cbd5e1;
+}
+
+.ra-empty__text {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 640px) {
+  .ra-card__header {
+    padding: 16px 18px;
+  }
+
+  .ra-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 18px;
+  }
+
+  .ra-item__title {
+    white-space: normal;
+  }
+}

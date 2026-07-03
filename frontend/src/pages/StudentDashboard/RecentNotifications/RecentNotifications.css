@@ -1,0 +1,155 @@
+/* ============================================================
+   RecentNotifications Card
+   ============================================================ */
+
+.rn-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Header ────────────────────────────────────────────────── */
+.rn-card__header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.rn-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rn-card__icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #fef3c7;
+  color: #d97706;
+  flex-shrink: 0;
+}
+
+.rn-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* ── List ───────────────────────────────────────────────────── */
+.rn-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.rn-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 24px;
+  border-bottom: 1px solid #f8fafc;
+  transition: background-color 0.15s ease;
+}
+
+.rn-item:last-child {
+  border-bottom: none;
+}
+
+.rn-item:hover {
+  background-color: #fffbeb;
+}
+
+/* Coloured dot indicator */
+.rn-item__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+/* ── Content ────────────────────────────────────────────────── */
+.rn-item__content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.rn-item__title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.3;
+}
+
+.rn-item__message {
+  font-size: 0.825rem;
+  color: #475569;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.rn-item__date-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.rn-item__cal-icon {
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.rn-item__date {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+/* ── Empty state ───────────────────────────────────────────── */
+.rn-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  gap: 10px;
+}
+
+.rn-empty__icon {
+  color: #cbd5e1;
+}
+
+.rn-empty__text {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 640px) {
+  .rn-card__header {
+    padding: 16px 18px;
+  }
+
+  .rn-item {
+    padding: 14px 18px;
+  }
+}

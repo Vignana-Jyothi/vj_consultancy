@@ -1,4 +1,9 @@
-/* Main Dashboard Layout */
+/* ============================================================
+   Student Dashboard – Page Layout
+   Matches BrowseProject / MyApplications layout conventions
+   ============================================================ */
+
+/* Layout shell */
 .student-dashboard-layout {
   min-height: 100vh;
   display: flex;
@@ -6,17 +11,27 @@
   width: 100%;
 }
 
+/* Main panel (leaves room for the fixed 260px sidebar) */
 .student-dashboard-main {
   flex: 1;
-  margin-left: 260px; /* Space for the fixed Sidebar */
+  margin-left: 260px;
   padding: 40px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  min-width: 0; /* Prevents overflow issues */
+  min-width: 0;
 }
 
-/* Mobile top navbar (Hidden on desktop) */
+/* Content wrapper */
+.dashboard-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+}
+
+/* ============================================================
+   Mobile top navbar (hidden on desktop)
+   ============================================================ */
 .dashboard-navbar {
   display: none;
   height: 60px;
@@ -28,6 +43,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
+  margin-bottom: 8px;
 }
 
 .navbar-toggle-btn {
@@ -40,6 +56,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.15s ease;
 }
 
 .navbar-toggle-btn:hover {
@@ -54,202 +71,59 @@
 .navbar-brand {
   font-size: 16px;
   font-weight: 700;
-  color: #4f46e5; /* Purple primary accent */
+  color: #4f46e5;
 }
 
-/* Dashboard Content Container */
-.dashboard-content-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  width: 100%;
-}
-
-/* 2. Statistics Grid Layout */
-.stats-section-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-}
-
-/* 3. Recent Notifications & Quick Links Grid */
-.dashboard-middle-grid {
+/* ============================================================
+   Bottom two-column grid (Recent Applications + Notifications)
+   ============================================================ */
+.sd-bottom-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  align-items: stretch;
+  align-items: start;
 }
 
-/* 4. Recent Applications & Assigned Projects Grid */
-.dashboard-bottom-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  align-items: stretch;
-}
-
-/* Grid Columns Equal Height */
-.grid-col-equal {
+/* ============================================================
+   Loading Screen
+   ============================================================ */
+.sd-loading-screen {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-/* 5. Upcoming Deliverables (Timeline Section) */
-.upcoming-deliverables-section {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 4px 18px rgba(148, 163, 184, 0.08);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-}
-
-.deliverables-section-title {
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0 0 2rem 0;
-}
-
-/* Horizontal Timeline Layout */
-.timeline-container {
-  position: relative;
-  width: 100%;
-  padding: 1rem 0;
-}
-
-.timeline-track-line {
-  position: absolute;
-  top: 34px; /* Align to the vertical center of the 48px circle node */
-  left: 60px;
-  right: 60px;
-  height: 4px;
-  background: repeating-linear-gradient(
-    90deg,
-    #cbd5e1 0px,
-    #cbd5e1 6px,
-    transparent 6px,
-    transparent 12px
-  );
-  z-index: 1;
-}
-
-.timeline-items-wrapper {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  position: relative;
-  z-index: 2;
-}
-
-.timeline-item-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.timeline-node {
-  display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  border: 4px solid #e2e8f0;
-  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.12);
-  z-index: 3;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.timeline-node-icon {
-  stroke-width: 2.25px;
-}
-
-/* Timeline Accent Styling on nodes */
-.timeline-today {
-  border-color: #3b82f6;
-  color: #3b82f6;
-  background-color: #eff6ff;
-}
-
-.timeline-tomorrow {
-  border-color: #f97316;
-  color: #f97316;
-  background-color: #fff7ed;
-}
-
-.timeline-upcoming {
-  border-color: #8b5cf6;
-  color: #8b5cf6;
-  background-color: #f5f3ff;
-}
-
-.timeline-last {
-  border-color: #10b981;
-  color: #10b981;
-  background-color: #f0fdf4;
-}
-
-/* Timeline Card */
-.timeline-card {
-  margin-top: 1.25rem;
-  padding: 1.25rem;
   background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  width: 100%;
-  box-sizing: border-box;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-  text-align: left;
+  gap: 16px;
 }
 
-.timeline-item-col:hover .timeline-card {
-  transform: translateY(-4px);
-  border-color: rgba(99, 102, 241, 0.25);
-  background-color: #ffffff;
-  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.05);
+.sd-loading-spinner {
+  width: 44px;
+  height: 44px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #4f46e5;
+  border-radius: 50%;
+  animation: sd-spin 0.75s linear infinite;
 }
 
-.timeline-item-col:hover .timeline-node {
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(148, 163, 184, 0.2);
+@keyframes sd-spin {
+  to { transform: rotate(360deg); }
 }
 
-.timeline-date {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #4f46e5; /* Purple Primary */
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.timeline-task {
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
-  line-height: 1.3;
-}
-
-.timeline-project {
-  font-size: 0.75rem;
-  color: #64748b;
+.sd-loading-text {
+  font-size: 0.9rem;
   font-weight: 500;
+  color: #64748b;
+  letter-spacing: 0.01em;
 }
 
-/* Responsive Media Queries */
+/* ============================================================
+   Responsive – Tablet (≤ 1024px)
+   ============================================================ */
 @media (max-width: 1024px) {
   .student-dashboard-main {
     margin-left: 0;
     padding: 24px;
-    gap: 24px;
   }
 
   .dashboard-navbar {
@@ -257,80 +131,29 @@
     margin: -24px -24px 0 -24px;
   }
 
-  .stats-section-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
-  .dashboard-middle-grid,
-  .dashboard-bottom-grid {
+  .sd-bottom-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
 }
 
-@media (max-width: 768px) {
-  /* Shift Horizontal Timeline to Vertical on Mobile/Tablets */
-  .timeline-track-line {
-    top: 0;
-    bottom: 0;
-    left: 24px;
-    right: auto;
-    width: 4px;
-    height: auto;
-    background: repeating-linear-gradient(
-      180deg,
-      #cbd5e1 0px,
-      #cbd5e1 6px,
-      transparent 6px,
-      transparent 12px
-    );
-  }
-
-  .timeline-items-wrapper {
-    grid-template-columns: 1fr;
-    gap: 24px;
-  }
-
-  .timeline-item-col {
-    flex-direction: row;
-    align-items: flex-start;
-    text-align: left;
-    gap: 1.25rem;
-    width: 100%;
-  }
-
-  .timeline-node {
-    flex-shrink: 0;
-  }
-
-  .timeline-card {
-    margin-top: 0;
-    flex-grow: 1;
-  }
-}
-
+/* ============================================================
+   Responsive – Mobile (≤ 640px)
+   ============================================================ */
 @media (max-width: 640px) {
   .student-dashboard-main {
     padding: 16px;
-    gap: 20px;
   }
 
   .dashboard-navbar {
     margin: -16px -16px 0 -16px;
   }
 
-  .stats-section-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .dashboard-content-container {
+    gap: 20px;
   }
 
-  .dashboard-middle-grid,
-  .dashboard-bottom-grid {
+  .sd-bottom-grid {
     gap: 16px;
-  }
-
-  .upcoming-deliverables-section {
-    padding: 1.25rem;
   }
 }
