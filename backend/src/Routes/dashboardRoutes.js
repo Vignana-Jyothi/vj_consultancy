@@ -1,10 +1,10 @@
 import express from "express";
 import pool from "../config/db.js";
 import verifyToken from "../middleware/verifyToken.js";
-
+import authorizeRole from "../middleware/authorizeRole.js";
 const router = express.Router();
 
-router.get("/stats",verifyToken, async (req, res) => {
+router.get("/stats",verifyToken, authorizeRole("project_sourcer"), async (req, res) => {
 
     try {
 
@@ -42,7 +42,7 @@ router.get("/stats",verifyToken, async (req, res) => {
 
 });
 
-router.get("/activities", verifyToken, async (req, res) => {
+router.get("/activities", verifyToken, authorizeRole("project_sourcer"), async (req, res) => {
 
     try {
 

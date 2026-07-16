@@ -1,4 +1,5 @@
 import axios from "axios";
+import pool from "../config/db.js";
 
 const AUTH_URL = process.env.AUTH_URL || "http://localhost:2999";
 
@@ -37,9 +38,35 @@ const verifyToken = async (req, res, next) => {
         }
 
         // Store Logged-in User
-        req.user = response.data.user;
-       console.log(req.user);
-        next();
+       // Store Logged-in User
+      // Store Logged-in User
+        // Store Logged-in User
+req.user = response.data.user;
+
+// Fetch user's role from database
+const roleResult = await pool.query(
+    `
+    SELECT role
+    FROM users
+    WHERE LOWER(email) = LOWER($1)
+    `,
+    [req.user.email]
+);
+
+if (roleResult.rows.length === 0) {
+    return res.status(403).json({
+        success: false,
+        message: "User is not registered."
+    });
+}
+
+// Attach role to req.user
+req.user.role = roleResult.rows[0].role;
+
+console.log("Role query:", roleResult.rows);
+console.log("Final req.user:", req.user);
+
+next();
 
     } catch (error) {
 
