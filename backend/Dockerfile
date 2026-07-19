@@ -20,7 +20,7 @@ EXPOSE 5000
 ENV NODE_ENV=production
 ENV PORT=5000
 
-# Healthcheck hits root "/" since that's the only route that currently exists and returns 200
+# Healthcheck hits root "/" since that's the only route that currently exists and returns 200.
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:5000/', (r) => {if(r.statusCode !== 200) process.exit(1); process.exit(0);})" || exit 1
 
