@@ -26,6 +26,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+RUN sed -i 's|pid.*|pid /tmp/nginx.pid;|' /etc/nginx/nginx.conf
+
 RUN chown -R nginxuser:nginxgroup /usr/share/nginx/html && \
     chown -R nginxuser:nginxgroup /var/cache/nginx && \
     chown -R nginxuser:nginxgroup /var/log/nginx && \
