@@ -29,10 +29,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 RUN chown -R nginxuser:nginxgroup /usr/share/nginx/html && \
     chown -R nginxuser:nginxgroup /var/cache/nginx && \
     chown -R nginxuser:nginxgroup /var/log/nginx && \
-    chown -R nginxuser:nginxgroup /etc/nginx/conf.d && \
-    mkdir -p /var/run && \
-    touch /var/run/nginx.pid && \
-    chown -R nginxuser:nginxgroup /var/run
+    chown -R nginxuser:nginxgroup /etc/nginx/conf.d
 
 EXPOSE 8080
 
