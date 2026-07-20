@@ -9,7 +9,7 @@ on:
 jobs:
   backend-check:
     name: Backend Install Check
-    runs-on: gamma
+    runs-on: dev-ai
     defaults:
       run:
         working-directory: backend
@@ -29,7 +29,7 @@ jobs:
 
   frontend-lint:
     name: Frontend Lint & Build Check
-    runs-on: gamma
+    runs-on: dev-ai
     needs: backend-check
     defaults:
       run:
@@ -60,7 +60,7 @@ jobs:
 
   deploy:
     name: Build & Deploy Docker Containers
-    runs-on: gamma
+    runs-on: dev-ai
     needs: [backend-check, frontend-lint]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
